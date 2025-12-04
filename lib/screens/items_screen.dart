@@ -81,21 +81,46 @@ class _ItemsScreenState extends State<ItemsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Itens da Lista"),
-        actions: [IconButton(icon: Icon(Icons.refresh), onPressed: _loadItems)],
+        backgroundColor: Colors.white,
+        elevation: 2,
+        centerTitle: true,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.checklist, color: Colors.blue, size: 26),
+            SizedBox(width: 8),
+            Text(
+              "Sua Lista",
+              style: TextStyle(
+                color: Colors.blue[900],
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+                letterSpacing: 1,
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.refresh, color: Colors.blue),
+            onPressed: _loadItems,
+          ),
+        ],
+        iconTheme: IconThemeData(color: Colors.blue),
       ),
+
       body: _loading
           ? Center(child: CircularProgressIndicator())
           : ListView.builder(
               itemCount: _items.length,
-              itemBuilder: (_, index) {
-                final item = _items[index];
-                return GestureDetector(
-                  onTap: () => _togglePurchased(item),
-                  child: ItemTile(item: item),
+              itemBuilder: (context, index) {
+                return ItemTile(
+                  item: _items[index],
+                  onToggle: () => _togglePurchased(_items[index]),
                 );
               },
             ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddItemDialog,
         child: Icon(Icons.add),

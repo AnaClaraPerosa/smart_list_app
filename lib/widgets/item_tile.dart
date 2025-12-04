@@ -3,17 +3,30 @@ import '../models/item.dart';
 
 class ItemTile extends StatelessWidget {
   final Item item;
+  final VoidCallback onToggle;
 
-  ItemTile({required this.item});
+  ItemTile({
+    required this.item,
+    required this.onToggle,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(item.name),
-      subtitle: Text("Quantidade: ${item.quantity}"),
-      trailing: Icon(
-        item.purchased ? Icons.check_box : Icons.check_box_outline_blank,
-        color: item.purchased ? Colors.green : null,
+      onTap: onToggle,
+      title: Text(
+        item.name,
+        style: TextStyle(
+          decoration: item.purchased ? TextDecoration.lineThrough : null,
+          color: item.purchased ? Colors.grey : Colors.black,
+        ),
+      ),
+      subtitle: Text("Qtd: ${item.quantity}"),
+      trailing: Checkbox(
+        value: item.purchased,
+        onChanged: (_) {
+          onToggle();
+        },
       ),
     );
   }

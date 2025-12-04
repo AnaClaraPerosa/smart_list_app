@@ -45,9 +45,10 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[100],
       appBar: AppBar(
         title: Text(
-          "Cadastro",
+          "Criar Conta",
           style: TextStyle(
             color: Colors.blue[900],
             fontWeight: FontWeight.bold,
@@ -59,49 +60,99 @@ class _SignupScreenState extends State<SignupScreen> {
         elevation: 2,
         iconTheme: IconThemeData(color: Colors.blue[900]),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          children: [
-            TextField(
-              controller: _emailController,
-              decoration: InputDecoration(
-                labelText: "Email",
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: _passwordController,
-              decoration: InputDecoration(
-                labelText: "Senha",
-                border: OutlineInputBorder(),
-              ),
-              obscureText: true,
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: _passwordConfirmController,
-              decoration: InputDecoration(
-                labelText: "Confirmar Senha",
-                border: OutlineInputBorder(),
-              ),
-              obscureText: true,
-            ),
-            SizedBox(height: 24),
-            _loading
-                ? CircularProgressIndicator()
-                : ElevatedButton(
-                    onPressed: _signup,
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: Colors.blue[800],
-                      minimumSize: Size(double.infinity, 50),
-                      textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(24),
+          child: Column(
+            children: [
+              // CARD DE CADASTRO
+              Container(
+                padding: EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 10,
+                      offset: Offset(0, 4),
                     ),
-                    child: Text("Cadastrar"),
-                  ),
-          ],
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    // EMAIL
+                    TextField(
+                      controller: _emailController,
+                      decoration: InputDecoration(
+                        labelText: "Email",
+                        prefixIcon: Icon(Icons.email),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: 16),
+
+                    // SENHA
+                    TextField(
+                      controller: _passwordController,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        labelText: "Senha",
+                        prefixIcon: Icon(Icons.lock),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: 16),
+
+                    // CONFIRMAR SENHA
+                    TextField(
+                      controller: _passwordConfirmController,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        labelText: "Confirmar Senha",
+                        prefixIcon: Icon(Icons.lock_outline),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: 24),
+
+                    // BOTÃO CADASTRAR
+                    _loading
+                        ? CircularProgressIndicator()
+                        : SizedBox(
+                            width: double.infinity,
+                            height: 50,
+                            child: ElevatedButton(
+                              onPressed: _signup,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.blue[800],
+                                foregroundColor: Colors.white,
+                                elevation: 3,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                textStyle: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              child: Text("Cadastrar"),
+                            ),
+                          ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

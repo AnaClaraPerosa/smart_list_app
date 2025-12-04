@@ -18,11 +18,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void _update() async {
     setState(() => _loading = true);
+
     final success = await widget.api.updateUser(
       email: _emailController.text.trim(),
       password: _passwordController.text.trim(),
       passwordConfirmation: _passwordConfirmController.text.trim(),
     );
+
     setState(() => _loading = false);
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -37,8 +39,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         title: Text("Confirmação"),
         content: Text("Deseja realmente excluir sua conta?"),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context, false), child: Text("Cancelar")),
-          TextButton(onPressed: () => Navigator.pop(context, true), child: Text("Excluir", style: TextStyle(color: Colors.red))),
+          TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text("Cancelar")),
+          TextButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: Text("Excluir", style: TextStyle(color: Colors.red))),
         ],
       ),
     );
@@ -67,6 +73,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[100],
       appBar: AppBar(
         title: Text(
           "Perfil",
@@ -82,73 +89,147 @@ class _ProfileScreenState extends State<ProfileScreen> {
         iconTheme: IconThemeData(color: Colors.blue[900]),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(20),
         child: Column(
           children: [
-            TextField(
-              controller: _emailController,
-              decoration: InputDecoration(
-                labelText: "Email",
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: _passwordController,
-              decoration: InputDecoration(
-                labelText: "Nova senha",
-                border: OutlineInputBorder(),
-              ),
-              obscureText: true,
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: _passwordConfirmController,
-              decoration: InputDecoration(
-                labelText: "Confirmar senha",
-                border: OutlineInputBorder(),
-              ),
-              obscureText: true,
-            ),
-            SizedBox(height: 24),
-            _loading
-                ? CircularProgressIndicator()
-                : Column(
-                    children: [
-                      ElevatedButton(
-                        onPressed: _update,
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: Colors.blue[800],
-                          minimumSize: Size(double.infinity, 50),
-                          textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                        child: Text("Atualizar"),
-                      ),
-                      SizedBox(height: 12),
-                      ElevatedButton(
-                        onPressed: _delete,
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: Colors.red,
-                          minimumSize: Size(double.infinity, 50),
-                          textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                        child: Text("Excluir conta"),
-                      ),
-                      SizedBox(height: 12),
-                      ElevatedButton(
-                        onPressed: _logout,
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: Colors.blue[600],
-                          minimumSize: Size(double.infinity, 50),
-                          textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                        child: Text("Logout"),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 10,
+                        offset: Offset(0, 4),
                       ),
                     ],
                   ),
+                  child: Column(
+                    children: [
+                      TextField(
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                          labelText: "Email",
+                          prefixIcon: Icon(Icons.email),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 16),
+
+                      TextField(
+                        controller: _passwordController,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          labelText: "Nova senha",
+                          prefixIcon: Icon(Icons.lock),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 16),
+
+                      TextField(
+                        controller: _passwordConfirmController,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          labelText: "Confirmar senha",
+                          prefixIcon: Icon(Icons.lock_outline),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                      ),
+
+                      SizedBox(height: 28),
+
+                      _loading
+                          ? CircularProgressIndicator()
+                          : Column(
+                              children: [
+                                // Botão Atualizar
+                                SizedBox(
+                                  width: double.infinity,
+                                  height: 50,
+                                  child: ElevatedButton(
+                                    onPressed: _update,
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.blue[800],
+                                      foregroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      textStyle: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    child: Text("Atualizar"),
+                                  ),
+                                ),
+
+                                SizedBox(height: 20),
+
+                                // Botão Sair (Logout)
+                                SizedBox(
+                                  width: double.infinity,
+                                  height: 50,
+                                  child: ElevatedButton(
+                                    onPressed: _logout,
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.blue[600],
+                                      foregroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      textStyle: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    child: Text("Sair"),
+                                  ),
+                                ),
+                              ],
+                            ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+            // ---- Área da Exclusão da Conta ----
+            SizedBox(height: 20),
+            Text(
+              "Deseja excluir sua conta?",
+              style: TextStyle(
+                color: Colors.red[700],
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 8),
+            SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: ElevatedButton(
+                onPressed: _delete,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  textStyle: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                child: Text("Excluir Conta"),
+              ),
+            ),
           ],
         ),
       ),

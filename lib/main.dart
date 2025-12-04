@@ -38,8 +38,6 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _checkLogin() async {
-    // Aqui você poderia checar tokens salvos no SharedPreferences
-    // Por enquanto, vamos sempre para LoginScreen
     await Future.delayed(Duration(seconds: 1));
     Navigator.pushReplacement(
       context,

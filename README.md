@@ -1,92 +1,151 @@
-# SmartList 📱🛒
+# 📱 SmartList — Organize suas listas de compras de forma simples 🛒
 
-SmartList é um aplicativo mobile desenvolvido em **Flutter**, integrado a uma **API REST em Ruby on Rails** com banco de dados **PostgreSQL**.  
-O objetivo do app é facilitar a organização de listas de compras, permitindo que cada usuário crie suas próprias listas e adicione itens de forma prática.
+SmartList é um aplicativo mobile desenvolvido em **Flutter**, integrado a uma **API REST Ruby on Rails** com banco **PostgreSQL**.  
+O objetivo do app é permitir que cada usuário crie e gerencie suas listas de compras de forma rápida, intuitiva e eficiente.
 
 ---
 
-## 🚀 Tecnologias utilizadas
+## 🛠 Tecnologias utilizadas
 
-- **Flutter** (frontend mobile)
-- **Ruby on Rails** (backend/API)
-- **PostgreSQL** (banco de dados)
-- **Devise** (autenticação de usuários)
+### **Frontend (Mobile)**
+
+- Flutter
+- Dart
+
+### **Backend (API)**
+
+- Ruby on Rails
+- Devise (autenticação)
+- PostgreSQL
+- Docker (opcional)
 
 ---
 
 ## 🗄️ Estrutura do Banco de Dados
 
-A API utiliza um banco PostgreSQL com as seguintes tabelas principais:
+A API utiliza um banco **PostgreSQL** com as seguintes entidades:
 
-- **users**  
-  Armazena os dados de autenticação e informações dos usuários.  
-  Campos principais: `id`, `email`, `encrypted_password`.
+### 🔹 **users**
 
-- **shopping_lists**  
-  Representa uma lista de compras criada por um usuário.  
-  Campos principais: `id`, `name`, `user_id`.
+- Armazena os dados de autenticação.
+- Campos: `id`, `email`, `encrypted_password`, timestamps.
 
-- **items**  
-  Representa os itens que compõem uma lista de compras.  
-  Campos principais: `id`, `name`, `quantity`, `shopping_list_id`.
+### 🔹 **shopping_lists**
+
+- Cada usuário pode ter várias listas de compras.
+- Campos: `id`, `name`, `user_id`, timestamps.
+
+### 🔹 **items**
+
+- Itens registrados dentro de uma lista.
+- Campos: `id`, `name`, `quantity`, `purchased`, `shopping_list_id`.
 
 ---
 
 ## 📲 Como rodar o app Flutter
 
-1. Clone o repositório:  
-   git clone <https://github.com/seu-usuario/smart_list_app.git>  
-   cd smartlist-app  
+### 1️⃣ Clone o repositório
 
-2. Instale as dependências do Flutter:  
-   flutter pub get  
+```bash
+git clone https://github.com/seu-usuario/smart_list_app.git
+cd smartlist-app
+```
 
-3. Configure a URL da API  
-   No arquivo `lib/services/api_service.dart`, ajuste a variável `baseUrl` com a URL da sua API.  
-   Exemplo para ambiente local:  
-   const String baseUrl = "<http://localhost:3000>";  
+### 2️⃣ Instale as dependências
 
-   Você também pode rodar passando a URL dinamicamente:  
-   flutter run --dart-define=API_URL=<http://192.xxx.x.xx:3000>  
+```bash
+flutter pub get
+```
 
-4. Execute o aplicativo:  
-   flutter run  
+### 3️⃣ Configure a URL da API  
+
+No arquivo:  
+
+´´´
+lib/services/api_service.dart
+´´´
+
+Ajuste:
+
+```dart
+const String baseUrl = "http://localhost:3000";
+```
+
+Ou passe por parâmetro no run:
+
+```bash
+flutter run --dart-define=API_URL=http://192.xxx.x.xx:3000
+```
+
+### 4️⃣ Execute o app
+
+```bash
+flutter run
+```
 
 ---
 
-## 🌐 Como rodar a API (Rails)
+## 🌐 Como rodar a API Rails
 
-> O repositório da API é separado deste app.
+> A API está em repositório separado.
 
-1. Clone e configure o projeto Rails:  
-   git clone <https://github.com/AnaClaraPerosa/SmartList.git>  
-   cd smartlist-api  
+### 1️⃣ Clone o projeto
 
-2. Instale as dependências:  
-   bundle install  
+```bash
+git clone https://github.com/AnaClaraPerosa/SmartList.git
+cd smartlist-api
+```
 
-3. Crie e rode o banco de dados:  
-   rails db:create db:migrate db:seed  
+### 2️ Instale as dependências
 
-4. Inicie o servidor Rails:  
-   rails s  
+```bash
+bundle install
+```
 
-   A API ficará disponível em <http://localhost:3000>  
+### 3️⃣ Configure e crie o banco
+
+```bash
+rails db:create db:migrate db:seed
+```
+
+### 4️⃣ Inicie o servidor
+
+```bash
+rails s
+```
+
+A API estará disponível em:
+
+´´´
+<http://localhost:3000>
+
+´´´
+
+---
+
+## 🐳 Rodando a API com Docker (opcional)
+
+```bash
+docker compose up --build
+```
+
+A API subirá automaticamente no container e o PostgreSQL será inicializado.
 
 ---
 
 ## 🎯 Objetivo do projeto
 
-O **SmartList** foi criado para facilitar o controle de listas de compras:  
+O SmartList foi criado para:
 
-- Cada usuário pode se cadastrar e gerenciar suas próprias listas.  
-- Dentro de cada lista é possível adicionar e gerenciar itens.  
-- A API garante segurança, persistência e escalabilidade para o app.  
+✔ Facilitar a criação de listas de compras  
+✔ Permitir adicionar, editar e marcar itens como comprados  
+✔ Oferecer autenticação segura de usuários  
+✔ Criar um fluxo simples e intuitivo do início ao fim  
 
 ---
 
-## 📌 Observações
+## 📌 Observações importantes
 
-- O **app e a API estão em repositórios separados**, mas se comunicam via HTTP.  
-- Certifique-se de iniciar a API antes de rodar o app.  
-- Ajuste o IP/URL no `ApiService` conforme o ambiente (local ou produção).
+- App e API estão em repositórios separados.  
+- Sempre inicie a API antes de abrir o app Flutter.  
+- Ajuste a URL no `ApiService` conforme seu ambiente.  
